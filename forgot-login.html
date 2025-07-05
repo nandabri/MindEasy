@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindEasy Appointment | Forgot Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1e4bb8;
+            --danger: #e11d48;
+            --danger-hover: #be123c;
+            --warning: #f59e0b;
+            --warning-hover: #d97706;
+            --gray-light: #f8fafc;
+            --gray: #e2e8f0;
+            --gray-dark: #64748b;
+            --bg-color: #f8fafc;
+            --text-color: #111827;
+            --header-bg: #ffffff;
+            --container-bg: #fff;
+            --input-shadow: rgba(0, 0, 0, 0.05);
+            --input-border-hover: var(--primary);
+            --input-glow: rgba(37, 99, 235, 0.2);
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --warning: #fbbf24;
+            --warning-hover: #f59e0b;
+            --gray-light: #1f2937;
+            --gray: #374151;
+            --gray-dark: #9ca3af;
+            --bg-color: #111827;
+            --text-color: #f9fafb;
+            --header-bg: #1f2937;
+            --container-bg: #374151;
+            --input-shadow: rgba(0, 0, 0, 0.3);
+            --input-border-hover: #60a5fa;
+            --input-glow: rgba(59, 130, 246, 0.4);
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+            background: var(--header-bg);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: relative;
+            transition: background-color 0.3s;
+        }
+
+        .logo {
+            width: 200px;
+            height: auto;
+        }
+
+        .desktop-nav {
+            display: flex;
+            gap: 2rem;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .desktop-nav a {
+            text-decoration: none;
+            color: var(--gray-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .desktop-nav a:hover {
+            color: var(--primary);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+            z-index: 1001;
+            width: 40px;
+            height: 40px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        .mobile-nav {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: var(--header-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            flex-direction: column;
+            padding: 1rem 2rem;
+            gap: 1rem;
+            transition: background-color 0.3s;
+            z-index: 1000;
+        }
+
+        .mobile-nav.active {
+            display: flex;
+        }
+
+        .mobile-nav a {
+            text-decoration: none;
+            color: var(--gray-dark);
+            font-weight: 500;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--gray);
+            transition: color 0.3s;
+        }
+
+        .mobile-nav a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-nav a:hover {
+            color: var(--primary);
+        }
+
+        .theme-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            width: 44px;
+            height: 44px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-hover);
+            transform: scale(1.05);
+        }
+
+        /* Conteúdo */
+        .container {
+            flex: 1;
+            max-width: 450px;
+            max-height: fit-content;
+            margin: 3rem auto;
+            background: var(--container-bg);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            width: 90%;
+            box-sizing: border-box;
+            transition: background-color 0.3s;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: x-large;
+            font-weight: 600;
+            color: var(--warning);
+            text-align: center;
+        }
+
+        .description {
+            text-align: center;
+            color: var(--gray-dark);
+            margin-bottom: 2rem;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.85rem;
+            margin-bottom: 0.3rem;
+            font-weight: 500;
+            color: var(--gray-dark);
+        }
+
+        input {
+            padding: 0.9rem;
+            border: 2px solid var(--gray);
+            border-radius: 8px;
+            margin-bottom: 1.2rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--container-bg);
+            color: var(--text-color);
+            box-shadow: inset 0 2px 6px var(--input-shadow);
+        }
+
+        input:hover {
+            border-color: var(--input-border-hover);
+            box-shadow: inset 0 2px 6px var(--input-shadow), 0 0 0 2px var(--input-glow);
+            transform: translateY(-1px);
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: inset 0 2px 6px var(--input-shadow), 0 0 0 4px var(--input-glow);
+            outline: none;
+            transform: translateY(-2px);
+        }
+
+        button[type="submit"] {
+            background: var(--warning);
+            color: #fff;
+            border: none;
+            padding: 0.9rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+            margin-bottom: 1.5rem;
+        }
+
+        button[type="submit"]:hover {
+            background: var(--warning-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .success-message {
+            background: #10b981;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1rem;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .error {
+            color: #dc2626;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray);
+        }
+
+        .back-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .back-link a:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.85rem;
+            color: var(--gray-dark);
+            transition: color 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+                order: 1;
+            }
+
+            .logo {
+                width: 140px;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                order: 2;
+            }
+
+            .theme-actions {
+                order: 3;
+                gap: 0;
+            }
+
+            .theme-toggle {
+                width: 40px;
+                height: 40px;
+                padding: 0.6rem;
+                font-size: 1rem;
+            }
+
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .mobile-nav {
+                z-index: 1000;
+            }
+
+            .container {
+                margin: 1.5rem auto;
+                padding: 2rem;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-menu-toggle {
+                display: none !important;
+            }
+
+            .mobile-nav {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="mobile-menu-toggle" id="mobileMenuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <img src="mindEasyLight.png" alt="logo mindEasy" class="logo">
+
+        <nav class="desktop-nav">
+            <a href="home.html">Home</a>
+            <a href="home.html#features">Features</a>
+            <a href="index.html">Login</a>
+            <a href="register.html">Register</a>
+        </nav>
+
+        <div class="theme-actions">
+            <button class="theme-toggle" id="themeToggle">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+
+        <nav class="mobile-nav" id="mobileNav">
+            <a href="home.html">Home</a>
+            <a href="home.html#features">Features</a>
+            <a href="index.html">Login</a>
+            <a href="register.html">Register</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <section id="forgotLoginSection">
+            <h2>Recover Username</h2>
+            <p class="description">
+                Enter your email address and we'll send you your username and login instructions.
+            </p>
+
+            <div class="success-message" id="successMessage">
+                Username recovery instructions have been sent to your email address.
+            </div>
+
+            <form id="forgotLoginForm">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="Enter your email address" required />
+
+                <p class="error" id="errorMessage"></p>
+
+                <button type="submit">Send Username</button>
+            </form>
+
+            <div class="back-link">
+                <a href="index.html">← Back to Login</a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        &copy; 2025 All rights reserved | Designed and developed by Fernanda Belmont
+    </footer>
+
+    <script>
+        // Alternador de tema
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.querySelector('.theme-icon');
+        const logo = document.querySelector('.logo');
+
+        // Verificar tema salvo no localStorage
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+        updateLogo(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+            updateLogo(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+
+        function updateLogo(theme) {
+            logo.src = theme === 'dark' ? 'mindEasyDarkh.png' : 'mindEasyLight.png';
+        }
+
+        // Menu hambúrguer mobile
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileNav = document.getElementById('mobileNav');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenuToggle.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+        });
+
+        // Fechar menu ao clicar em um link
+        const mobileNavLinks = mobileNav.querySelectorAll('a');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuToggle.classList.remove('active');
+                mobileNav.classList.remove('active');
+            });
+        });
+
+        // Fechar menu ao clicar fora dele
+        document.addEventListener('click', (e) => {
+            if (!mobileMenuToggle.contains(e.target) && !mobileNav.contains(e.target)) {
+                mobileMenuToggle.classList.remove('active');
+                mobileNav.classList.remove('active');
+            }
+        });
+
+        // Formulário de esqueci o login
+        const forgotLoginForm = document.getElementById('forgotLoginForm');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        forgotLoginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+
+            if (!email) {
+                errorMessage.textContent = 'Please enter your email address.';
+                return;
+            }
+
+            // Simulação de envio (aqui você implementaria a lógica real)
+            errorMessage.textContent = '';
+            successMessage.style.display = 'block';
+            forgotLoginForm.style.display = 'none';
+
+            // Opcional: redirecionar após alguns segundos
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 3000);
+        });
+    </script>
+</body>
+
+</html>

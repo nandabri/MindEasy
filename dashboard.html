@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindEasy Dashboard | Appointment Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1e4bb8;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gray-light: #f8fafc;
+            --gray: #e2e8f0;
+            --gray-dark: #64748b;
+            --gray-darker: #475569;
+            --bg-color: #f8fafc;
+            --text-color: #111827;
+            --header-bg: #ffffff;
+            --sidebar-bg: #ffffff;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --secondary: #a78bfa;
+            --success: #34d399;
+            --warning: #fbbf24;
+            --danger: #f87171;
+            --gray-light: #1f2937;
+            --gray: #374151;
+            --gray-dark: #9ca3af;
+            --gray-darker: #6b7280;
+            --bg-color: #111827;
+            --text-color: #f9fafb;
+            --header-bg: #1f2937;
+            --sidebar-bg: #1f2937;
+            --card-bg: #374151;
+            --border-color: #4b5563;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Header */
+        .header {
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 2rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: background-color 0.3s;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            height: 60px;
+            width: auto;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 3px;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .menu-toggle:hover {
+            background: var(--gray-light);
+        }
+
+        .menu-toggle span {
+            width: 18px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        .header-center {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 2rem;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            width: 36px;
+            height: 36px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-hover);
+            transform: scale(1.05);
+        }
+
+        .profile-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .profile-menu:hover {
+            background: var(--gray-light);
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .profile-role {
+            font-size: 0.75rem;
+            color: var(--gray-dark);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 260px;
+            height: calc(100vh - 70px);
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem 0;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-item {
+            margin-bottom: 0.25rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--gray-dark);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: var(--gray-light);
+            color: var(--primary);
+        }
+
+        .sidebar-icon {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            margin-top: 70px;
+            padding: 2rem;
+            min-height: calc(100vh - 70px);
+            transition: margin-left 0.3s;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-subtitle {
+            color: var(--gray-dark);
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .stat-title {
+            font-size: 0.9rem;
+            color: var(--gray-dark);
+            font-weight: 500;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .stat-icon.primary {
+            background: var(--primary);
+        }
+
+        .stat-icon.success {
+            background: var(--success);
+        }
+
+        .stat-icon.warning {
+            background: var(--warning);
+        }
+
+        .stat-icon.danger {
+            background: var(--danger);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .stat-change.positive {
+            color: var(--success);
+        }
+
+        .stat-change.negative {
+            color: var(--danger);
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Appointment List */
+        .appointment-list {
+            list-style: none;
+        }
+
+        .appointment-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s;
+        }
+
+        .appointment-item:hover {
+            background: var(--gray-light);
+        }
+
+        .appointment-item:last-child {
+            border-bottom: none;
+        }
+
+        .appointment-time {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+            min-width: 80px;
+        }
+
+        .appointment-patient {
+            flex: 1;
+        }
+
+        .patient-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .appointment-type {
+            font-size: 0.85rem;
+            color: var(--gray-dark);
+        }
+
+        .appointment-status {
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-confirmed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .status-cancelled {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .appointment-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .quick-stat {
+            text-align: center;
+            padding: 1rem;
+            background: var(--gray-light);
+            border-radius: 8px;
+        }
+
+        .quick-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .quick-stat-label {
+            font-size: 0.85rem;
+            color: var(--gray-dark);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .header-center {
+                max-width: 200px;
+                margin: 0 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 1rem;
+                height: 60px;
+            }
+
+            .header-center {
+                display: none;
+            }
+
+            .logo {
+                height: 50px;
+            }
+
+            .profile-info {
+                display: none;
+            }
+
+            .profile-avatar {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+
+            .theme-toggle {
+                width: 32px;
+                height: 32px;
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .sidebar {
+                top: 60px;
+                height: calc(100vh - 60px);
+                width: 280px;
+            }
+
+            .main-content {
+                margin-top: 60px;
+                padding: 1rem;
+            }
+
+            .dashboard-title {
+                font-size: 1.5rem;
+            }
+
+            .dashboard-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .appointment-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+                padding: 1rem 0.5rem;
+            }
+
+            .appointment-time {
+                font-size: 0.9rem;
+                min-width: auto;
+                background: var(--primary);
+                color: white;
+                padding: 0.25rem 0.5rem;
+                border-radius: 4px;
+            }
+
+            .appointment-actions {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .btn-sm {
+                flex: 1;
+                min-width: 80px;
+                justify-content: center;
+            }
+
+            .quick-stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
+            }
+
+            .quick-stat {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .quick-stat-value {
+                font-size: 1.25rem;
+            }
+
+            .quick-stat-label {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-right {
+                gap: 0.5rem;
+            }
+
+            .dashboard-header {
+                margin-bottom: 1.5rem;
+            }
+
+            .content-section {
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .appointment-actions {
+                flex-direction: column;
+            }
+
+            .btn-sm {
+                min-width: 100%;
+            }
+
+            .quick-stats {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .quick-stat {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                text-align: left;
+                padding: 0.75rem;
+            }
+
+            .quick-stat-value {
+                order: 2;
+            }
+
+            .quick-stat-label {
+                order: 1;
+            }
+        }
+
+        /* Sidebar overlay for mobile */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .sidebar-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <img src="mindEasyLight.png" alt="MindEasy" class="logo">
+        </div>
+
+        <div class="header-center">
+            <input type="text" class="search-bar" placeholder="Search patients, appointments...">
+        </div>
+
+        <div class="header-right">
+            <button class="theme-toggle" id="themeToggle">
+                <span class="theme-icon">🌙</span>
+            </button>
+
+            <div class="profile-menu">
+                <div class="profile-avatar">DR</div>
+                <div class="profile-info">
+                    <div class="profile-name">Dr. João Silva</div>
+                    <div class="profile-role">Psychologist</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <ul class="sidebar-menu">
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link active">
+                    <span class="sidebar-icon">📊</span>
+                    Dashboard
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <span class="sidebar-icon">📅</span>
+                    Appointments
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <span class="sidebar-icon">👥</span>
+                    Patients
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <span class="sidebar-icon">📋</span>
+                    Medical Records
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <span class="sidebar-icon">💳</span>
+                    Billing
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <span class="sidebar-icon">📈</span>
+                    Reports
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <span class="sidebar-icon">⚙️</span>
+                    Settings
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="index.html" class="sidebar-link">
+                    <span class="sidebar-icon">🚪</span>
+                    Logout
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Dashboard</h1>
+            <p class="dashboard-subtitle">Welcome back! Here's what's happening with your practice today.</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">Today's Appointments</div>
+                    <div class="stat-icon primary">📅</div>
+                </div>
+                <div class="stat-value">8</div>
+                <div class="stat-change positive">
+                    <span>↗</span> +2 from yesterday
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">Total Patients</div>
+                    <div class="stat-icon success">👥</div>
+                </div>
+                <div class="stat-value">156</div>
+                <div class="stat-change positive">
+                    <span>↗</span> +12 this month
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">Revenue (Month)</div>
+                    <div class="stat-icon warning">💰</div>
+                </div>
+                <div class="stat-value">$12,480</div>
+                <div class="stat-change positive">
+                    <span>↗</span> +8.2% from last month
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">Pending Reviews</div>
+                    <div class="stat-icon danger">📋</div>
+                </div>
+                <div class="stat-value">4</div>
+                <div class="stat-change negative">
+                    <span>↘</span> 2 overdue
+                </div>
+            </div>
+        </div>
+
+        <!-- Today's Appointments -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Today's Appointments</h2>
+                <a href="#" class="btn btn-primary">
+                    <span>+</span>
+                    New Appointment
+                </a>
+            </div>
+
+            <div class="quick-stats">
+                <div class="quick-stat">
+                    <div class="quick-stat-value">6</div>
+                    <div class="quick-stat-label">Confirmed</div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-value">1</div>
+                    <div class="quick-stat-label">Pending</div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-value">1</div>
+                    <div class="quick-stat-label">Cancelled</div>
+                </div>
+            </div>
+
+            <ul class="appointment-list">
+                <li class="appointment-item">
+                    <div class="appointment-time">09:00</div>
+                    <div class="appointment-patient">
+                        <div class="patient-name">Maria Santos</div>
+                        <div class="appointment-type">Individual Therapy</div>
+                    </div>
+                    <div class="appointment-status status-confirmed">Confirmed</div>
+                    <div class="appointment-actions">
+                        <button class="btn btn-primary btn-sm">View</button>
+                        <button class="btn btn-warning btn-sm">Reschedule</button>
+                    </div>
+                </li>
+
+                <li class="appointment-item">
+                    <div class="appointment-time">10:30</div>
+                    <div class="appointment-patient">
+                        <div class="patient-name">João Oliveira</div>
+                        <div class="appointment-type">Couples Therapy</div>
+                    </div>
+                    <div class="appointment-status status-confirmed">Confirmed</div>
+                    <div class="appointment-actions">
+                        <button class="btn btn-primary btn-sm">View</button>
+                        <button class="btn btn-warning btn-sm">Reschedule</button>
+                    </div>
+                </li>
+
+                <li class="appointment-item">
+                    <div class="appointment-time">14:00</div>
+                    <div class="appointment-patient">
+                        <div class="patient-name">Ana Costa</div>
+                        <div class="appointment-type">Initial Consultation</div>
+                    </div>
+                    <div class="appointment-status status-pending">Pending</div>
+                    <div class="appointment-actions">
+                        <button class="btn btn-success btn-sm">Confirm</button>
+                        <button class="btn btn-danger btn-sm">Cancel</button>
+                    </div>
+                </li>
+
+                <li class="appointment-item">
+                    <div class="appointment-time">15:30</div>
+                    <div class="appointment-patient">
+                        <div class="patient-name">Pedro Silva</div>
+                        <div class="appointment-type">Follow-up</div>
+                    </div>
+                    <div class="appointment-status status-confirmed">Confirmed</div>
+                    <div class="appointment-actions">
+                        <button class="btn btn-primary btn-sm">View</button>
+                        <button class="btn btn-warning btn-sm">Reschedule</button>
+                    </div>
+                </li>
+
+                <li class="appointment-item">
+                    <div class="appointment-time">16:00</div>
+                    <div class="appointment-patient">
+                        <div class="patient-name">Carla Mendes</div>
+                        <div class="appointment-type">Group Therapy</div>
+                    </div>
+                    <div class="appointment-status status-cancelled">Cancelled</div>
+                    <div class="appointment-actions">
+                        <button class="btn btn-primary btn-sm">Reschedule</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Recent Patients -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Recent Patients</h2>
+                <a href="#" class="btn btn-primary">
+                    <span>+</span>
+                    Add Patient
+                </a>
+            </div>
+
+            <ul class="appointment-list">
+                <li class="appointment-item">
+                    <div class="appointment-patient">
+                        <div class="patient-name">Maria Santos</div>
+                        <div class="appointment-type">Last visit: 2 days ago</div>
+                    </div>
+                    <div class="appointment-actions">
+                        <button class="btn btn-primary btn-sm">View Profile</button>
+                        <button class="btn btn-success btn-sm">Schedule</button>
+                    </div>
+                </li>
+
+                <li class="appointment-item">
+                    <div class="appointment-patient">
+                        <div class="patient-name">João Oliveira</div>
+                        <div class="appointment-type">Last visit: 1 week ago</div>
+                    </div>
+                    <div class="appointment-actions">
+                        <button class="btn btn-primary btn-sm">View Profile</button>
+                        <button class="btn btn-success btn-sm">Schedule</button>
+                    </div>
+                </li>
+
+                <li class="appointment-item">
+                    <div class="appointment-patient">
+                        <div class="patient-name">Ana Costa</div>
+                        <div class="appointment-type">New patient</div>
+                    </div>
+                    <div class="appointment-actions">
+                        <button class="btn btn-primary btn-sm">View Profile</button>
+                        <button class="btn btn-success btn-sm">Schedule</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.querySelector('.theme-icon');
+        const logo = document.querySelector('.logo');
+
+        // Check saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+        updateLogo(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+            updateLogo(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+
+        function updateLogo(theme) {
+            logo.src = theme === 'dark' ? 'mindEasyDarkh.png' : 'mindEasyLight.png';
+        }
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            sidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('show');
+        });
+
+        sidebarOverlay.addEventListener('click', () => {
+            menuToggle.classList.remove('active');
+            sidebar.classList.remove('open');
+            sidebarOverlay.classList.remove('show');
+        });
+
+        // Sidebar navigation
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (!link.href.includes('index.html')) {
+                    e.preventDefault();
+
+                    // Remove active class from all links
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+
+                    // Add active class to clicked link
+                    link.classList.add('active');
+
+                    // Close mobile menu
+                    menuToggle.classList.remove('active');
+                    sidebar.classList.remove('open');
+                    sidebarOverlay.classList.remove('show');
+                }
+            });
+        });
+
+        // Search functionality
+        const searchBar = document.querySelector('.search-bar');
+        searchBar.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            // Implement search functionality here
+            console.log('Searching for:', searchTerm);
+        });
+
+        // Appointment actions
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('btn-sm')) {
+                const action = e.target.textContent.trim();
+                const appointmentItem = e.target.closest('.appointment-item');
+                const patientName = appointmentItem.querySelector('.patient-name').textContent;
+
+                console.log(`${action} action for ${patientName}`);
+
+                // Implement specific actions here
+                switch (action) {
+                    case 'View':
+                        // Open appointment details
+                        break;
+                    case 'Confirm':
+                        // Confirm appointment
+                        e.target.textContent = 'Confirmed';
+                        e.target.classList.remove('btn-success');
+                        e.target.classList.add('btn-primary');
+                        break;
+                    case 'Cancel':
+                        // Cancel appointment
+                        break;
+                    case 'Reschedule':
+                        // Open reschedule modal
+                        break;
+                    case 'Schedule':
+                        // Open schedule modal
+                        break;
+                    case 'View Profile':
+                        // Open patient profile
+                        break;
+                }
+            }
+        });
+
+        // Auto-update time for "live" feel
+        setInterval(() => {
+            const now = new Date();
+            // Update any time-sensitive data here
+        }, 60000); // Update every minute
+    </script>
+</body>
+
+</html>
