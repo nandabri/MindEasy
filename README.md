@@ -48,17 +48,6 @@ I focused on creating a professional, accessible, and user-friendly interface fo
 
 ---
 
-## 🎯 Live Demo
-
-- **Home Page**: [home.html](home.html)
-- **Login**: [index.html](index.html)
-- **Registration**: [register.html](register.html)
-- **Dashboard**: [dashboard.html](dashboard.html)
-- **Password Recovery**: [forgot-password.html](forgot-password.html)
-- **Username Recovery**: [forgot-login.html](forgot-login.html)
-
----
-
 ## 🔧 Quick Start
 
 1. **Clone or Download** the repository
