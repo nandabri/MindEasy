@@ -1,96 +1,68 @@
-# 🧠 MindEasy - Mental Health Practice Management
+# Eretz Hatikvah Tours - Tourism Website in Israel
 
-![visitors](https://visitor-badge.laobi.icu/badge?page_id=nandabri.MindEasy)
+## Description
+Multilingual website for the tourism company **“Eretz Hatikvah Tours”**, specializing in spiritual and cultural tours in the Holy Land. The site offers full support for three languages: Hebrew, English, and Portuguese.
 
-A modern, responsive web application designed for mental health professionals to manage appointments, patients, and their practice efficiently.
+## Features
 
-👉 [Check it out here](https://nandabri.github.io/MindEasy/)
+### 🌍 Multilingual
+- **Hebrew (עברית)** – Main language with RTL support
+- **English (English)** – International language
+- **Portuguese (Português)** – For Brazilian and Portuguese tourists
 
----
+### 🎨 Modern Design
+- Responsive, mobile-first design
+- Smooth and interactive animations
+- Professional color scheme (blue and white)
+- Typography optimized for each language
 
-## 💡 About the Project
+### 🚀 Functionality
+- Real-time language switcher
+- Smooth navigation between sections
+- Interactive tour cards
+- Functional contact form
+- Advanced CSS animations
+- Accessibility support
 
-This project was built using **HTML5**, **CSS3**, and **JavaScript**.
-I focused on creating a professional, accessible, and user-friendly interface for healthcare providers.
+### 📱 Responsiveness
+- Desktop
+- Tablet
+- Mobile
 
----
+## Tours Offered
 
-##  Features
+1. **Classic Jerusalem** – Old City, Western Wall, Mount of Olives
+2. **Dead Sea & Masada** – Unique experience at the lowest point on Earth
+3. **Galilee & Sea of Galilee** – Nazareth, Capernaum, biblical landscapes
+4. **Judean Desert** – Desert adventures, ancient monasteries
+5. **Customized Spiritual Tours** – Tailor-made itineraries
+6. **Family Tours** – Activities for the whole family
 
-- 📱 **Responsive design** — adapts to all screen sizes (mobile, tablet, desktop)
-- 🎨 **Modern & clean UI** — professional interface with smooth animations
-- � **Dark/Light mode toggle** — automatic theme switching with preference saving
-- 📊 **Dashboard** — real-time statistics and appointment management
-- 🔐 **Authentication system** — login, registration, and password recovery
-- � **Appointment management** — today's schedule with quick actions
-- 👥 **Patient overview** — recent patients and profile management
-- 💰 **Revenue tracking** — monthly financial insights
-- 🎯 **Interactive components** — hover effects and form validation
+## Technologies Used
 
----
+### Frontend
+- **HTML5** – Semantic structure
+- **CSS3** – Styling, animations, and responsiveness
 
-##  Technologies Used
+## Compatibility
 
-- **HTML5** — semantic markup and modern web standards
-- **CSS3** — custom styles, Grid/Flexbox layouts, and animations
-- **JavaScript** — ES6+ features, local storage, and form validation
-- **Google Fonts** — Inter font family for modern typography
+### Supported Browsers
+- Chrome
+- Firefox
+- Safari
+- Edge
 
----
+## License
 
-##  Preview
+© 2025 All rights reserved | Designed and developed by Fernanda Belmont
 
-### Desktop View
-![Desktop Dashboard](desktop.png)
+## Contact for Development
 
-### Mobile View
-![Mobile Interface](mobile.png)
+For modifications or technical support, please contact:
+- Email: rivlisnanda@gmail.com
 
----
+## Version
 
-## 🔧 Quick Start
+**v1.0.0** – Initial version with full multilingual support
 
-1. **Clone or Download** the repository
-2. **Open** any HTML file in your web browser
-3. **No build process required** — it's a static website
-4. **Enjoy** the MindEasy experience!
-
----
-
-##  Color Palette
-
-### Light Theme
-- **Primary**: #2563eb (Blue)
-- **Success**: #10b981 (Green)
-- **Background**: #f8fafc (Light Gray)
-
-### Dark Theme
-- **Primary**: #3b82f6 (Lighter Blue)
-- **Success**: #34d399 (Lighter Green)
-- **Background**: #111827 (Dark)
-
----
-
-## 🔮 Future Enhancements
-
-- [ ] Backend integration with user authentication API
-- [ ] Real-time appointment notifications
-- [ ] Patient communication system
-- [ ] Advanced reporting and analytics
-- [ ] Progressive Web App (PWA) functionality
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Please feel free to submit a Pull Request.
-
----
-
-## ⚖️ License
-
-This project is open for learning purposes. Feel free to get inspired, but don't copy.
-
-**Made with ❤️ for mental health professionals by Fernanda Belmont**
-
-**Thank you for visiting MindEasy! ✨**
+*Developed with ❤️ to connect people to the Holy Land*
